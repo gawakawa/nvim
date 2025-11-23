@@ -2,6 +2,9 @@
 result
 result-*
 
+# MCP configuration (auto-generated)
+.mcp.json
+
 # nvfetcher generated sources
 _sources/
 

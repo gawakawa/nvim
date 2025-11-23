@@ -8,6 +8,7 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
   };
 
   outputs =
@@ -57,6 +58,13 @@
           system,
           ...
         }:
+        let
+          mcpConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
+            programs = {
+              nixos.enable = true;
+            };
+          };
+        in
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
@@ -72,6 +80,15 @@
               pkgs.callPackage ./nix/lib/make-neovim-wrapper.nix {
                 inherit plugins tools;
               };
+
+            mcp-config = mcpConfig;
+          };
+
+          devShells.default = pkgs.mkShell {
+            shellHook = ''
+              cat ${mcpConfig} > .mcp.json
+              echo "Generated .mcp.json"
+            '';
           };
 
           treefmt = {
