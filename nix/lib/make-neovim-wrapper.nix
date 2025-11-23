@@ -24,7 +24,7 @@ let
       pname = "neovim-config";
       version = "latest";
 
-      src = ../nvim;
+      src = ../../nvim;
 
       installPhase = ''
         mkdir -p $out
