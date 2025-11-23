@@ -1,0 +1,22 @@
+# Nix build results
+result
+result-*
+
+# nvfetcher generated sources
+_sources/
+
+# Lazy.nvim plugin lock file (managed by lazy.nvim)
+nvim/lazy-lock.json
+
+# Lua compiled files
+*.luac
+
+# Editor backups
+*~
+*.swp
+*.swo
+.*.sw?
+
+# OS files
+.DS_Store
+Thumbs.db
