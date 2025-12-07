@@ -120,6 +120,7 @@ with pkgs.vimPlugins;
   tokyonight-nvim
   lualine-nvim
   nvim-web-devicons
+  alpha-nvim
 
   mason-nvim
   mason-lspconfig-nvim
