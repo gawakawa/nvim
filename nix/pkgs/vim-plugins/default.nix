@@ -148,6 +148,7 @@ with pkgs.vimPlugins;
   bufferline-nvim
   toggleterm-nvim
   trouble-nvim
+  which-key-nvim
   conform-nvim
   copilot-vim
   render-markdown-nvim
