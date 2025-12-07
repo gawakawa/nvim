@@ -33,24 +33,8 @@ return {
 			vim.diagnostic.config({
 				virtual_text = false,
 				virtual_lines = {
-					format = function(d)
-						local wininfo = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
-						local w = wininfo.width - wininfo.textoff - 5
-						local m = d.message
-						if #m <= w then
-							return m
-						end
-
-						local result, line = "", ""
-						for word in m:gmatch("%S+") do
-							if #line + #word > w then
-								result = result .. line .. "\n"
-								line = word
-							else
-								line = line == "" and word or line .. " " .. word
-							end
-						end
-						return result .. line
+					format = function(diagnostic)
+						return string.format("%s\n(%s: %s)", diagnostic.message, diagnostic.source, diagnostic.code)
 					end,
 				},
 				signs = true,
