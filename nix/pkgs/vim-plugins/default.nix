@@ -151,6 +151,7 @@ with pkgs.vimPlugins;
   conform-nvim
   copilot-vim
   render-markdown-nvim
+  markdown-preview-nvim
 
   move-nvim
   logger-nvim
