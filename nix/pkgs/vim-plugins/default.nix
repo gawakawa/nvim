@@ -150,6 +150,7 @@ with pkgs.vimPlugins;
   trouble-nvim
   conform-nvim
   copilot-vim
+  render-markdown-nvim
 
   move-nvim
   logger-nvim
