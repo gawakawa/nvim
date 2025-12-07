@@ -102,6 +102,17 @@ let
       hash = "sha256-oB8xWUPunEViZVCb7kyavuetw2lTM5IHpgNgcDW+DLA=";
     };
   };
+
+  fyler-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "fyler.nvim";
+    version = "stable-2024-12-07";
+    src = pkgs.fetchFromGitHub {
+      owner = "A7Lavinraj";
+      repo = "fyler.nvim";
+      rev = "bb8b9f30c652c948d35211958b0deec3496bcc08";
+      hash = "sha256-Caf1dJiIATbs0PNjSANjA3QgHg7PdeMz9Pjoc0Ti7G4=";
+    };
+  };
 in
 
 with pkgs.vimPlugins;
@@ -124,8 +135,9 @@ with pkgs.vimPlugins;
 
   telescope-nvim
   plenary-nvim
-  neo-tree-nvim
   nui-nvim
+  mini-nvim
+  fyler-nvim
 
   lazygit-nvim
   nvim-autopairs
