@@ -54,11 +54,12 @@ return {
 			vim.lsp.config.prismals = {}
 			vim.lsp.config.purescriptls = {}
 			vim.lsp.config.rust_analyzer = {
+				root_dir = function(bufnr, cb)
+					cb(vim.fs.root(bufnr, { "Cargo.toml" }))
+				end,
 				settings = {
 					["rust-analyzer"] = {
-						check = {
-							command = "clippy",
-						},
+						check = { command = "clippy" },
 					},
 				},
 			}

@@ -161,7 +161,6 @@ with pkgs.vimPlugins;
   trouble-nvim
   which-key-nvim
   conform-nvim
-  copilot-vim
   render-markdown-nvim
   markdown-preview-nvim
 
