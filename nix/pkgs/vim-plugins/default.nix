@@ -113,6 +113,17 @@ let
       hash = "sha256-Caf1dJiIATbs0PNjSANjA3QgHg7PdeMz9Pjoc0Ti7G4=";
     };
   };
+
+  rustowl-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "rustowl";
+    version = "1.0.0-rc.1";
+    src = pkgs.fetchFromGitHub {
+      owner = "cordx56";
+      repo = "rustowl";
+      rev = "v1.0.0-rc.1";
+      hash = "sha256-CXuwbg39sboKxuJTNpq3KVqjTTOQp1Af4XWZLjorHdM=";
+    };
+  };
 in
 
 with pkgs.vimPlugins;
@@ -168,6 +179,7 @@ with pkgs.vimPlugins;
   switch-vim
   tcomment_vim
   idris2-nvim
+  rustowl-nvim
 
   (nvim-treesitter.withPlugins (
     plugins: with plugins; [

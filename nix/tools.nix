@@ -7,6 +7,7 @@ with pkgs;
   fd
 
   # For LSP servers
+  (callPackage ./pkgs/rustowl { })
   asm-lsp
   clang-tools
   clojure-lsp
