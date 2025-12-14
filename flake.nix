@@ -9,6 +9,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
+    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
   outputs =
@@ -35,6 +36,7 @@
               pkgs = import inputs.nixpkgs {
                 inherit system;
                 config.allowUnfree = true;
+                overlays = [ (import inputs.rust-overlay) ];
               };
             in
             {
@@ -70,6 +72,7 @@
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
             config.allowUnfree = true;
+            overlays = [ (import inputs.rust-overlay) ];
           };
 
           packages = {

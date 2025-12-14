@@ -1,81 +1,59 @@
 {
+  pkgs,
   lib,
-  stdenv,
-  fetchurl,
-  autoPatchelfHook,
-  makeWrapper,
-  zlib,
+  makeRustPlatform,
 }:
 
 let
   version = "1.0.0-rc.1";
-  rustVersion = "1.89.0";
-  platform = "x86_64-unknown-linux-gnu";
 
-  rustcTarball = fetchurl {
-    url = "https://static.rust-lang.org/dist/rustc-${rustVersion}-${platform}.tar.gz";
-    hash = "sha256-DKm0ilH2HEpeeZ0E8nypBiAA1rSTRgblurvzsCbkB0s=";
+  src = pkgs.fetchFromGitHub {
+    owner = "cordx56";
+    repo = "rustowl";
+    rev = "v${version}";
+    hash = "sha256-CXuwbg39sboKxuJTNpq3KVqjTTOQp1Af4XWZLjorHdM=";
   };
 
-  rustStdTarball = fetchurl {
-    url = "https://static.rust-lang.org/dist/rust-std-${rustVersion}-${platform}.tar.gz";
-    hash = "sha256-lZf2CAheDc9IoBDpgx27jq87MMi1fhhgXwLT9ARGw08=";
-  };
-
-  cargoTarball = fetchurl {
-    url = "https://static.rust-lang.org/dist/cargo-${rustVersion}-${platform}.tar.gz";
-    hash = "sha256-Phz/E+JkmM0pdfsY3ftEL/nHz+MBu5wxBXCkWXwDMeI=";
+  toolchain = pkgs.rust-bin.fromRustupToolchainFile "${src}/rust-toolchain.toml";
+  toolchainTOML = lib.importTOML "${src}/rust-toolchain.toml";
+  toolchainName = "${toolchainTOML.toolchain.channel}-x86_64-unknown-linux-gnu";
+  rustPlatform = makeRustPlatform {
+    cargo = toolchain;
+    rustc = toolchain;
   };
 in
-stdenv.mkDerivation {
+rustPlatform.buildRustPackage {
   pname = "rustowl";
-  inherit version;
+  inherit version src;
 
-  src = fetchurl {
-    url = "https://github.com/cordx56/rustowl/releases/download/v${version}/rustowl-${platform}.tar.gz";
-    hash = "sha256-ir1fQfMEZg4xdNUrf2bgxziFtzm+xPZQv1IDIHbIOKM=";
+  cargoDeps = rustPlatform.importCargoLock {
+    lockFile = "${src}/Cargo.lock";
   };
 
-  sourceRoot = ".";
-
   nativeBuildInputs = [
-    autoPatchelfHook
-    makeWrapper
+    toolchain
+    pkgs.pkg-config
   ];
 
-  buildInputs = [
-    stdenv.cc.cc.lib
-    zlib
-  ];
+  buildInputs = [ pkgs.openssl ];
 
-  buildPhase = ''
-    runHook preBuild
+  RUSTOWL_TOOLCHAIN = toolchainTOML.toolchain.channel;
+  RUSTUP_TOOLCHAIN = toolchainName;
 
-    tar -xzf ${rustcTarball}
-    cp -r rustc-${rustVersion}-${platform}/rustc/* sysroot/${rustVersion}-${platform}/
+  postInstall = ''
+    # Create sysroot structure in bin/ directory (rustowl looks for sysroot/ next to executable)
+    mkdir -p $out/bin/sysroot/${toolchainName}/bin
 
-    tar -xzf ${rustStdTarball}
-    cp -r rust-std-${rustVersion}-${platform}/rust-std-${platform}/lib/rustlib sysroot/${rustVersion}-${platform}/lib/
+    # Link toolchain directories
+    ln -s ${toolchain}/lib $out/bin/sysroot/${toolchainName}/lib
+    ln -s ${toolchain}/libexec $out/bin/sysroot/${toolchainName}/libexec
+    ln -s ${toolchain}/share $out/bin/sysroot/${toolchainName}/share
 
-    tar -xzf ${cargoTarball}
-    cp -r cargo-${rustVersion}-${platform}/cargo/* sysroot/${rustVersion}-${platform}/
-
-    runHook postBuild
-  '';
-
-  installPhase = ''
-    runHook preInstall
-
-    mkdir -p $out/bin $out/lib/rustowl
-    cp rustowl $out/bin/rustowl-unwrapped
-    cp -r sysroot $out/lib/rustowl/
-
-    ln -s $out/lib/rustowl/sysroot/${rustVersion}-${platform}/bin/rustowlc $out/bin/rustowlc
-
-    makeWrapper $out/bin/rustowl-unwrapped $out/bin/rustowl \
-      --set RUSTOWL_SYSROOT $out/lib/rustowl/sysroot
-
-    runHook postInstall
+    # Link toolchain binaries and add rustowlc
+    for f in ${toolchain}/bin/*; do
+      ln -s "$f" $out/bin/sysroot/${toolchainName}/bin/
+    done
+    cp $out/bin/rustowlc $out/bin/sysroot/${toolchainName}/bin/
   '';
 
   meta = with lib; {
