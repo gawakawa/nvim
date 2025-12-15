@@ -35,7 +35,7 @@ rustPlatform.buildRustPackage {
     pkgs.pkg-config
   ];
 
-  buildInputs = [ pkgs.openssl ];
+  buildInputs = [ pkgs.zlib ];
 
   RUSTOWL_TOOLCHAIN = toolchainTOML.toolchain.channel;
   RUSTUP_TOOLCHAIN = toolchainName;
