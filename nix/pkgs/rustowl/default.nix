@@ -16,7 +16,7 @@ let
 
   toolchain = pkgs.rust-bin.fromRustupToolchainFile "${src}/rust-toolchain.toml";
   toolchainTOML = lib.importTOML "${src}/rust-toolchain.toml";
-  toolchainName = "${toolchainTOML.toolchain.channel}-x86_64-unknown-linux-gnu";
+  toolchainName = "${toolchainTOML.toolchain.channel}-${pkgs.stdenv.hostPlatform.rust.rustcTarget}";
   rustPlatform = makeRustPlatform {
     cargo = toolchain;
     rustc = toolchain;
@@ -60,7 +60,10 @@ rustPlatform.buildRustPackage {
     description = "Visualize Ownership and Lifetimes in Rust";
     homepage = "https://github.com/cordx56/rustowl";
     license = licenses.mpl20;
-    platforms = [ "x86_64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-darwin"
+    ];
     mainProgram = "rustowl";
   };
 }
