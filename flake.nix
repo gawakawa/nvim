@@ -1,6 +1,13 @@
 {
   description = "Neovim configuration with Nix";
 
+  nixConfig = {
+    extra-substituters = [ "https://gawakawa.cachix.org" ];
+    extra-trusted-public-keys = [
+      "gawakawa.cachix.org-1:lpOOgOfyO68izReEj8TMxjnNRlgUsk4lwJ2KAGF5Xso="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
