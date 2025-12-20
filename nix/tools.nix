@@ -13,7 +13,8 @@ with pkgs;
   clojure-lsp
   deno
   gopls
-  haskell-language-server
+  # haskell-language-server is managed per-project via haskell.nix
+  # haskell-language-server
   prisma-language-server
   ps-pkgs.purescript-language-server
   rust-analyzer
