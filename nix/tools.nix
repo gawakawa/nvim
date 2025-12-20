@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, ps-pkgs }:
 
 with pkgs;
 [
@@ -13,17 +13,18 @@ with pkgs;
   clojure-lsp
   deno
   gopls
-  haskell-language-server
+  # haskell-language-server is managed per-project via haskell.nix
+  # haskell-language-server
   prisma-language-server
-  nodePackages.purescript-language-server
+  ps-pkgs.purescript-language-server
   rust-analyzer
   ruff
   terraform-ls
 
   # For formatters (conform.nvim)
   nixfmt
-  rustfmt
-  nodePackages.purs-tidy
+  (rust-bin.stable.latest.minimal.override { extensions = [ "rustfmt" ]; })
+  ps-pkgs.purs-tidy
   # ruff (already included for LSP)
   biome
   gotools # provides goimports
