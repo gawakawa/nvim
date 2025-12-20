@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, ps-pkgs }:
 
 with pkgs;
 [
@@ -15,7 +15,7 @@ with pkgs;
   gopls
   haskell-language-server
   prisma-language-server
-  nodePackages.purescript-language-server
+  ps-pkgs.purescript-language-server
   rust-analyzer
   ruff
   terraform-ls
@@ -23,7 +23,7 @@ with pkgs;
   # For formatters (conform.nvim)
   nixfmt
   rustfmt
-  nodePackages.purs-tidy
+  ps-pkgs.purs-tidy
   # ruff (already included for LSP)
   biome
   gotools # provides goimports

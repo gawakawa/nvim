@@ -11,6 +11,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
+    purescript-overlay.url = "github:thomashoneyman/purescript-overlay";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -86,7 +87,8 @@
             default =
               let
                 plugins = import ./nix/plugins.nix { inherit pkgs; };
-                tools = import ./nix/tools.nix { inherit pkgs; };
+                ps-pkgs = inputs.purescript-overlay.packages.${system};
+                tools = import ./nix/tools.nix { inherit pkgs ps-pkgs; };
               in
               pkgs.callPackage ./nix/lib/make-neovim-wrapper.nix {
                 inherit plugins tools;
