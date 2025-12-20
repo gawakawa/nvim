@@ -23,7 +23,7 @@ with pkgs;
 
   # For formatters (conform.nvim)
   nixfmt
-  rustfmt
+  (rust-bin.stable.latest.minimal.override { extensions = [ "rustfmt" ]; })
   ps-pkgs.purs-tidy
   # ruff (already included for LSP)
   biome
