@@ -10,18 +10,18 @@ return {
 			enable_autosnippets = true,
 		})
 
-		-- Unicode input using Lean's abbreviation syntax
-		-- Reference: https://github.com/leanprover/vscode-lean4/blob/master/lean4-unicode-input/src/abbreviations.json
-		local abbreviations = {
-			{ "\\vdash", "⊢" },
-			{ "\\Rightarrow", "⇒" },
-		}
+		-- Load Lean abbreviations (generated at build time)
+		-- Source: https://github.com/leanprover/vscode-lean4/blob/master/lean4-unicode-input/src/abbreviations.json
+		local ok, abbreviations = pcall(require, "data.lean_abbreviations")
+		if not ok then
+			vim.notify("Failed to load Lean abbreviations", vim.log.levels.WARN)
+			return
+		end
 
 		local snippets = {}
 		local autosnippets = {}
 
-		for _, abbr in ipairs(abbreviations) do
-			local trigger, symbol = abbr[1], abbr[2]
+		for trigger, symbol in pairs(abbreviations) do
 			-- Regular snippet for completion menu
 			table.insert(snippets, s({ trig = trigger, desc = symbol }, { t(symbol) }))
 			-- Autosnippet for immediate expansion
