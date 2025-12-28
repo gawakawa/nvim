@@ -17,13 +17,10 @@ let
     dontUnpack = true;
 
     buildPhase = ''
-      # Filter out entries with $CURSOR (bracket pairs with cursor positioning)
-      # These require LuaSnip insert nodes for proper cursor placement - not yet implemented
-      # TODO: Convert $CURSOR to LuaSnip insert nodes, e.g., { t("⟨"), i(1), t("⟩") }
       # JSON → Lua table conversion
+      # $CURSOR entries are handled by LuaSnip insert nodes at runtime
       ${pkgs.jq}/bin/jq -r '
         to_entries
-        | map(select(.value | contains("$CURSOR") | not))
         | map("  [" + ("\\"+.key | @json) + "] = " + (.value | @json))
         | "return {\n" + join(",\n") + "\n}"
       ' < $src > lean_abbreviations.lua
