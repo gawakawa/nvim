@@ -18,6 +18,10 @@
     };
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
     rust-overlay.url = "github:oxalica/rust-overlay";
+    vscode-lean4 = {
+      url = "github:leanprover/vscode-lean4";
+      flake = false;
+    };
   };
 
   outputs =
@@ -57,6 +61,7 @@
                 in
                 pkgs.callPackage ./nix/lib/make-neovim-wrapper.nix {
                   inherit plugins tools;
+                  vscode-lean4 = inputs.vscode-lean4;
                 };
             }
           );
@@ -92,6 +97,7 @@
               in
               pkgs.callPackage ./nix/lib/make-neovim-wrapper.nix {
                 inherit plugins tools;
+                vscode-lean4 = inputs.vscode-lean4;
               };
 
             mcp-config = mcpConfig;

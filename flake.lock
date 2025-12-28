@@ -157,7 +157,8 @@
         "nixpkgs": "nixpkgs_2",
         "purescript-overlay": "purescript-overlay",
         "rust-overlay": "rust-overlay",
-        "treefmt-nix": "treefmt-nix"
+        "treefmt-nix": "treefmt-nix",
+        "vscode-lean4": "vscode-lean4"
       }
     },
     "rust-overlay": {
@@ -195,6 +196,22 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "vscode-lean4": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1766255280,
+        "narHash": "sha256-LoqLs/tfRgbfpqHjpqqX66Nx4bBC5NX1XTpjysfGiDs=",
+        "owner": "leanprover",
+        "repo": "vscode-lean4",
+        "rev": "a45318523691329a325301826e3d20b2c7f6e864",
+        "type": "github"
+      },
+      "original": {
+        "owner": "leanprover",
+        "repo": "vscode-lean4",
         "type": "github"
       }
     }

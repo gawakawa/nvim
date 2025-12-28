@@ -2,6 +2,7 @@
   pkgs,
   plugins,
   tools ? [ ],
+  vscode-lean4,
 }:
 
 let
@@ -9,10 +10,8 @@ let
   leanAbbreviations = pkgs.stdenv.mkDerivation {
     name = "lean-abbreviations";
 
-    src = pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/leanprover/vscode-lean4/master/lean4-unicode-input/src/abbreviations.json";
-      hash = "sha256-zDp44YGskOFzp6o0toUne+ikMFrN+aH464CVWj/NFbE=";
-    };
+    # Use flake input instead of fetchurl for automatic updates via `nix flake update`
+    src = "${vscode-lean4}/lean4-unicode-input/src/abbreviations.json";
 
     nativeBuildInputs = [ pkgs.jq ];
     dontUnpack = true;
