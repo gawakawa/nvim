@@ -14,6 +14,7 @@ return {
 		-- Reference: https://github.com/leanprover/vscode-lean4/blob/master/lean4-unicode-input/src/abbreviations.json
 		local snippets = {
 			s({ trig = "\\vdash", snippetType = "autosnippet" }, { t("⊢") }),
+			s({ trig = "\\Rightarrow", snippetType = "autosnippet" }, { t("⇒") }),
 		}
 
 		ls.add_snippets("all", snippets)
