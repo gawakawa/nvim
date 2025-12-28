@@ -24,8 +24,8 @@ return {
 		for trigger, symbol in pairs(abbreviations) do
 			-- Regular snippet for completion menu
 			table.insert(snippets, s({ trig = trigger, desc = symbol }, { t(symbol) }))
-			-- Autosnippet for immediate expansion
-			table.insert(autosnippets, s({ trig = trigger, snippetType = "autosnippet" }, { t(symbol) }))
+			-- Autosnippet with space suffix trigger (space is consumed)
+			table.insert(autosnippets, s({ trig = trigger .. " ", snippetType = "autosnippet" }, { t(symbol) }))
 		end
 
 		ls.add_snippets("all", snippets)
