@@ -34,4 +34,8 @@ with pkgs;
   golines
   fourmolu
   haskellPackages.cabal-fmt
+
+  # For linters (nvim-lint)
+  shellcheck
+  tflint
 ]
