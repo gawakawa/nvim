@@ -3,7 +3,9 @@ return {
 	dir = "@nvim_lint@",
 	event = { "BufWritePost" },
 	config = function()
-		require("lint").linters_by_ft = {
+		local lint = require("lint")
+
+		lint.linters_by_ft = {
 			sh = { "shellcheck" },
 			bash = { "shellcheck" },
 			python = { "ruff" },
@@ -17,28 +19,37 @@ return {
 			css = { "stylelint" },
 			scss = { "stylelint" },
 			less = { "stylelint" },
+			typescript = { "deno", "oxlint" },
+			typescriptreact = { "deno", "oxlint" },
+			javascript = { "deno", "oxlint" },
+			javascriptreact = { "deno", "oxlint" },
 		}
 
-		local js_fts = {
-			typescript = true,
-			typescriptreact = true,
-			javascript = true,
-			javascriptreact = true,
+		-- Use deno linter for Deno projects, oxlint for Node.js projects
+		local function is_deno_project()
+			return vim.fs.find({ "deno.json", "deno.jsonc" }, {
+				path = vim.fn.expand("%:p:h"),
+				upward = true,
+			})[1] ~= nil
+		end
+
+		local linter_conditions = {
+			deno = is_deno_project,
+			oxlint = function()
+				return not is_deno_project()
+			end,
 		}
 
 		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 			callback = function()
-				local lint = require("lint")
 				local ft = vim.bo.filetype
-
-				if js_fts[ft] then
-					local has_deno = vim.fs.find({ "deno.json", "deno.jsonc" }, {
-						path = vim.fn.expand("%:p:h"),
-						upward = true,
-					})[1]
-					lint.try_lint(has_deno and "deno" or "oxlint")
-				else
-					lint.try_lint()
+				local linters = lint.linters_by_ft[ft] or {}
+				local active_linters = vim.tbl_filter(function(name)
+					local cond = linter_conditions[name]
+					return cond == nil or cond()
+				end, linters)
+				for _, linter in ipairs(active_linters) do
+					lint.try_lint(linter)
 				end
 			end,
 		})
