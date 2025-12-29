@@ -38,4 +38,5 @@ with pkgs;
   # For linters (nvim-lint)
   shellcheck
   tflint
+  oxlint
 ]
