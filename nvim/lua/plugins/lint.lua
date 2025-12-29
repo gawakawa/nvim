@@ -23,6 +23,8 @@ return {
 			typescriptreact = { "deno", "oxlint" },
 			javascript = { "deno", "oxlint" },
 			javascriptreact = { "deno", "oxlint" },
+			-- clippy is configured via rust-analyzer in lsp.lua
+			-- rust = { "clippy" },
 		}
 
 		-- Use deno linter for Deno projects, oxlint for Node.js projects
