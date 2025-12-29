@@ -45,6 +45,7 @@ return {
 
 			-- LSP server setup using new vim.lsp.config API
 			vim.lsp.config.asm_lsp = {}
+			vim.lsp.config.bashls = {}
 			vim.lsp.config.clangd = {}
 			vim.lsp.config.clojure_lsp = {}
 			vim.lsp.config.denols = {}
@@ -69,6 +70,7 @@ return {
 			-- Enable LSP servers
 			vim.lsp.enable({
 				"asm_lsp",
+				"bashls",
 				"clangd",
 				"clojure_lsp",
 				"denols",

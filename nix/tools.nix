@@ -9,6 +9,7 @@ with pkgs;
   # For LSP servers
   (callPackage ./pkgs/rustowl { })
   asm-lsp
+  bash-language-server
   clang-tools
   clojure-lsp
   deno
