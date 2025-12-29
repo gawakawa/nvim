@@ -9,6 +9,7 @@ return {
 			python = { "ruff" },
 			haskell = { "hlint" },
 			terraform = { "tflint" },
+			nix = { "statix", "deadnix" },
 		}
 
 		local js_fts = {

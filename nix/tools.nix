@@ -39,4 +39,6 @@ with pkgs;
   shellcheck
   tflint
   oxlint
+  statix
+  deadnix
 ]
