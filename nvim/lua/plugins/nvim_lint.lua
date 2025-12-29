@@ -11,6 +11,7 @@ return {
 			terraform = { "tflint" },
 			nix = { "statix", "deadnix" },
 			lua = { "selene" },
+			yaml = { "actionlint" },
 		}
 
 		local js_fts = {

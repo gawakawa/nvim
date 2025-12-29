@@ -42,4 +42,5 @@ with pkgs;
   statix
   deadnix
   selene
+  actionlint
 ]
