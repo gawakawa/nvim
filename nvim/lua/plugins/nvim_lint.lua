@@ -12,6 +12,8 @@ return {
 			nix = { "statix", "deadnix" },
 			lua = { "selene" },
 			yaml = { "actionlint" },
+			c = { "clangtidy" },
+			cpp = { "clangtidy" },
 		}
 
 		local js_fts = {
