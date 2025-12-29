@@ -23,7 +23,7 @@ jobs:
             extra-substituters = https://gawakawa.cachix.org
             extra-trusted-public-keys = gawakawa.cachix.org-1:lpOOgOfyO68izReEj8TMxjnNRlgUsk4lwJ2KAGF5Xso=
 
-      - uses: cachix/cachix-action@v15
+      - uses: cachix/cachix-action@v16
         with:
           name: gawakawa
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
