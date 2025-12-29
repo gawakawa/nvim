@@ -1,47 +1,49 @@
 { pkgs, ps-pkgs }:
 
-with pkgs;
-[
-  # For telescope
-  ripgrep
-  fd
+let
+  telescope = with pkgs; [
+    fd
+    ripgrep
+  ];
 
-  # For LSP servers
-  (callPackage ./pkgs/rustowl { })
-  asm-lsp
-  bash-language-server
-  clang-tools
-  clojure-lsp
-  deno
-  gopls
-  # haskell-language-server is managed per-project via haskell.nix
-  # haskell-language-server
-  prisma-language-server
-  ps-pkgs.purescript-language-server
-  rust-analyzer
-  ruff
-  terraform-ls
+  lsp = with pkgs; [
+    asm-lsp
+    bash-language-server
+    clang-tools
+    clojure-lsp
+    deno
+    gopls
+    prisma-language-server
+    ps-pkgs.purescript-language-server
+    ruff
+    rust-analyzer
+    (callPackage ./pkgs/rustowl { })
+    terraform-ls
+  ];
 
-  # For formatters (conform.nvim)
-  nixfmt
-  shfmt
-  (rust-bin.stable.latest.minimal.override { extensions = [ "rustfmt" ]; })
-  ps-pkgs.purs-tidy
-  # ruff (already included for LSP)
-  biome
-  gotools # provides goimports
-  go # provides gofmt
-  golines
-  fourmolu
-  haskellPackages.cabal-fmt
+  formatters = with pkgs; [
+    biome
+    fourmolu
+    go
+    golines
+    gotools
+    haskellPackages.cabal-fmt
+    nixfmt
+    ps-pkgs.purs-tidy
+    ruff
+    (rust-bin.stable.latest.minimal.override { extensions = [ "rustfmt" ]; })
+    shfmt
+  ];
 
-  # For linters (nvim-lint)
-  shellcheck
-  tflint
-  oxlint
-  statix
-  deadnix
-  selene
-  actionlint
-  stylelint
-]
+  linters = with pkgs; [
+    actionlint
+    deadnix
+    oxlint
+    selene
+    shellcheck
+    statix
+    stylelint
+    tflint
+  ];
+in
+pkgs.lib.unique (telescope ++ lsp ++ formatters ++ linters)
