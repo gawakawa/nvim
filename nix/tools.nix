@@ -39,6 +39,7 @@ let
   linters = with pkgs; [
     actionlint
     deadnix
+    markdownlint-cli2
     oxlint
     selene
     shellcheck

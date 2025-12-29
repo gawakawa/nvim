@@ -19,6 +19,7 @@ return {
 			css = { "stylelint" },
 			scss = { "stylelint" },
 			less = { "stylelint" },
+			markdown = { "markdownlint-cli2" },
 			typescript = { "deno", "oxlint" },
 			typescriptreact = { "deno", "oxlint" },
 			javascript = { "deno", "oxlint" },
