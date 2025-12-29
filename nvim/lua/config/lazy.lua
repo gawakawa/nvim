@@ -46,15 +46,6 @@ vim.opt.smartindent = true
 -- font
 vim.opt.guifont = "FiraCode Nerd Font:h15"
 
--- 統合されたディレクトリパスを使用するための設定
-local config_path = vim.g.nvim_config_dir
-if config_path then
--- runtimepathが既に設定されているので、ここでは何もしない
-else
-	-- 従来のパスを使用する（直接実行された場合のフォールバック）
-	config_path = vim.fn.stdpath("config")
-end
-
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {

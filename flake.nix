@@ -61,7 +61,7 @@
                 in
                 pkgs.callPackage ./nix/lib/make-neovim-wrapper.nix {
                   inherit plugins tools;
-                  vscode-lean4 = inputs.vscode-lean4;
+                  inherit (inputs) vscode-lean4;
                 };
             }
           );
@@ -97,7 +97,7 @@
               in
               pkgs.callPackage ./nix/lib/make-neovim-wrapper.nix {
                 inherit plugins tools;
-                vscode-lean4 = inputs.vscode-lean4;
+                inherit (inputs) vscode-lean4;
               };
 
             mcp-config = mcpConfig;
@@ -116,6 +116,53 @@
               nixfmt.enable = true;
               stylua.enable = true;
             };
+          };
+
+          checks = {
+            statix =
+              pkgs.runCommandLocal "statix"
+                {
+                  src = ./.;
+                  nativeBuildInputs = [ pkgs.statix ];
+                }
+                ''
+                  statix check $src
+                  mkdir "$out"
+                '';
+
+            deadnix =
+              pkgs.runCommandLocal "deadnix"
+                {
+                  src = ./.;
+                  nativeBuildInputs = [ pkgs.deadnix ];
+                }
+                ''
+                  deadnix --fail $src
+                  mkdir "$out"
+                '';
+
+            actionlint =
+              pkgs.runCommandLocal "actionlint"
+                {
+                  src = ./.;
+                  nativeBuildInputs = [ pkgs.actionlint ];
+                }
+                ''
+                  actionlint $src/.github/workflows/*.yml
+                  mkdir "$out"
+                '';
+
+            selene =
+              pkgs.runCommandLocal "selene"
+                {
+                  src = ./.;
+                  nativeBuildInputs = [ pkgs.selene ];
+                }
+                ''
+                  cd $src
+                  selene nvim
+                  mkdir "$out"
+                '';
           };
         };
     };

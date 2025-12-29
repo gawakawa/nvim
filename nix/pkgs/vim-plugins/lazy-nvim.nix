@@ -12,7 +12,7 @@ let
   # This allows Nix to control the config location via environment variable
   modifiedSrc = stdenv.mkDerivation {
     name = "lazy.nvim-modified-src";
-    src = originalLazyNvim.src;
+    inherit (originalLazyNvim) src;
 
     installPhase = ''
       mkdir -p $out
