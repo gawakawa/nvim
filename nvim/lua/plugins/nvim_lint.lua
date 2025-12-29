@@ -10,6 +10,7 @@ return {
 			haskell = { "hlint" },
 			terraform = { "tflint" },
 			nix = { "statix", "deadnix" },
+			lua = { "selene" },
 		}
 
 		local js_fts = {

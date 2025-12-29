@@ -41,4 +41,5 @@ with pkgs;
   oxlint
   statix
   deadnix
+  selene
 ]
