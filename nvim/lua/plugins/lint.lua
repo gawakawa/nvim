@@ -5,6 +5,26 @@ return {
 	config = function()
 		local lint = require("lint")
 
+		lint.linters.textlint = {
+			cmd = "textlint",
+			stdin = true,
+			args = {
+				"--format",
+				"compact",
+				"--stdin",
+				"--stdin-filename",
+				function()
+					return vim.api.nvim_buf_get_name(0)
+				end,
+			},
+			ignore_exitcode = true,
+			stream = "stdout",
+			parser = require("lint.parser").from_errorformat("%f:%l:%c: %m", {
+				source = "textlint",
+				severity = vim.diagnostic.severity.WARN,
+			}),
+		}
+
 		lint.linters_by_ft = {
 			sh = { "shellcheck" },
 			bash = { "shellcheck" },
@@ -19,7 +39,7 @@ return {
 			css = { "stylelint" },
 			scss = { "stylelint" },
 			less = { "stylelint" },
-			markdown = { "markdownlint-cli2" },
+			markdown = { "markdownlint-cli2", "textlint" },
 			typescript = { "deno", "oxlint" },
 			typescriptreact = { "deno", "oxlint" },
 			javascript = { "deno", "oxlint" },
