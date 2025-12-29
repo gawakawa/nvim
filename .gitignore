@@ -6,6 +6,9 @@ result-*
 # MCP configuration (auto-generated)
 .mcp.json
 
+# Local Claude configuration
+.claude/settings.local.json
+
 # nvfetcher generated sources
 _sources/
 
