@@ -16,6 +16,9 @@ return {
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
+				sh = { "shfmt" },
+				bash = { "shfmt" },
+				zsh = { "shfmt" },
 				nix = { "nixfmt" },
 				rust = { "rustfmt" },
 				purescript = { "purs_tidy" },
