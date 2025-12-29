@@ -14,6 +14,9 @@ return {
 			yaml = { "actionlint" },
 			c = { "clangtidy" },
 			cpp = { "clangtidy" },
+			css = { "stylelint" },
+			scss = { "stylelint" },
+			less = { "stylelint" },
 		}
 
 		local js_fts = {

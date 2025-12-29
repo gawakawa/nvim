@@ -43,4 +43,5 @@ with pkgs;
   deadnix
   selene
   actionlint
+  stylelint
 ]
