@@ -13,6 +13,7 @@ let
     clojure-lsp
     deno
     gopls
+    lua-language-server
     prisma-language-server
     ps-pkgs.purescript-language-server
     ruff

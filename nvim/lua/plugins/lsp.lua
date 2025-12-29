@@ -51,7 +51,7 @@ return {
 			vim.lsp.config.denols = {}
 			vim.lsp.config.gopls = {}
 			vim.lsp.config.hls = {}
-			-- vim.lsp.config.lua_ls = {}
+			vim.lsp.config.lua_ls = {}
 			vim.lsp.config.prismals = {}
 			vim.lsp.config.purescriptls = {}
 			vim.lsp.config.rust_analyzer = {
@@ -76,6 +76,7 @@ return {
 				"denols",
 				"gopls",
 				"hls",
+				"lua_ls",
 				"prismals",
 				"purescriptls",
 				"rust_analyzer",
