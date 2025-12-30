@@ -6,6 +6,10 @@ return {
 	},
 	lazy = false,
 	config = function()
-		require("claude-code").setup()
+		require("claude-code").setup({
+			window = {
+				position = "botright vsplit",
+			},
+		})
 	end,
 }
