@@ -19,7 +19,7 @@ return {
 			},
 			ignore_exitcode = true,
 			stream = "stdout",
-			parser = require("lint.parser").from_errorformat("%f:%l:%c: %m", {
+			parser = require("lint.parser").from_errorformat("%f: line %l\\, col %c\\, %m", {
 				source = "textlint",
 				severity = vim.diagnostic.severity.WARN,
 			}),
