@@ -90,53 +90,19 @@ External tools (LSPs, formatters, linters) are declared in `nix/tools.nix` and a
 
 Add packages to the list in `nix/tools.nix`. They'll be available in PATH when running Neovim via the wrapper.
 
-## MCP Integration (mcp-nixos)
+## Linting
 
-This project integrates `mcp-nixos` (https://github.com/utensils/mcp-nixos) for Claude Code. The development shell automatically generates `.mcp.json` with the NixOS MCP server configuration.
+Pre-commit hooks run automatically via `git-hooks-nix`:
+- **Nix**: `statix` (static analysis), `deadnix` (dead code detection)
+- **Lua**: `selene` (configured in `selene.toml` with `vim` standard library from `vim.yml`)
+- **GitHub Actions**: `actionlint`
 
-### Available MCP Tools
+Selene allows `mixed_table` lint due to lazy.nvim spec style.
 
-When working in this repository with Claude Code, you have access to:
+## MCP Integration
 
-**NixOS Package/Option Search:**
-- `mcp__nixos__nixos_search` - Search packages, options, programs (supports channels: unstable, stable, 25.05)
-- `mcp__nixos__nixos_info` - Get detailed package/option information
-- `mcp__nixos__nixos_stats` - View package and option counts per channel
-- `mcp__nixos__nixos_channels` - List available channels
-
-**Flakes:**
-- `mcp__nixos__nixos_flakes_search` - Find community flakes and packages
-- `mcp__nixos__nixos_flakes_stats` - Ecosystem statistics
-
-**Version History (NixHub):**
-- `mcp__nixos__nixhub_package_versions` - Get package version history with commit hashes for reproducible builds
-- `mcp__nixos__nixhub_find_version` - Find specific package versions
-
-**Home Manager:**
-- `mcp__nixos__home_manager_search` - Query user configuration options
-- `mcp__nixos__home_manager_info` - Get option details (with typo suggestions)
-- `mcp__nixos__home_manager_stats` - View 131 available categories
-- `mcp__nixos__home_manager_list_options` - Browse all categories
-- `mcp__nixos__home_manager_options_by_prefix` - Explore by prefix (e.g., `programs.git`)
-
-**Darwin (macOS):**
-- `mcp__nixos__darwin_search` - Query macOS-specific options
-- `mcp__nixos__darwin_info` - Get option details
-- `mcp__nixos__darwin_stats` - View 21 available categories
-- `mcp__nixos__darwin_list_options` - Browse categories
-- `mcp__nixos__darwin_options_by_prefix` - Explore by prefix (e.g., `system.defaults`)
-
-### Using MCP Tools
-
-Use these tools when working with Nix code to get accurate, real-time package information instead of relying on potentially outdated training data. For example:
-- Finding package versions and commit hashes for pinning
-- Exploring Home Manager configuration options
-- Searching for Darwin system defaults
-- Looking up flake packages
+Development shell generates `.mcp.json` with `mcp-nixos` server for Claude Code. Use MCP tools (`mcp__nixos__*`) for real-time NixOS/Home Manager package and option lookups instead of relying on training data.
 
 ## CI/CD
 
-GitHub Actions workflow (`.github/workflows/ci.yml`) runs on PRs and main branch:
-- Format checking with treefmt
-- Flake validation
-- Build verification on Ubuntu and macOS
+GitHub Actions (`.github/workflows/ci.yml`) runs `nix flake check` (includes all pre-commit hooks) and `nix build` on Ubuntu and macOS.
