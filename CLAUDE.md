@@ -28,6 +28,8 @@ nix run
 nix develop
 ```
 
+**Note**: Nix flakes only recognize files tracked by git. New or modified files must be staged (`git add`) before they are visible to flake commands like `nix build` or `nix flake check`.
+
 ## Architecture
 
 ### Plugin Management Flow
