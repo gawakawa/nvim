@@ -18,6 +18,10 @@
     };
     mcp-servers-nix.url = "github:natsukium/mcp-servers-nix";
     rust-overlay.url = "github:oxalica/rust-overlay";
+    git-hooks-nix = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     vscode-lean4 = {
       url = "github:leanprover/vscode-lean4";
       flake = false;
@@ -35,49 +39,25 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       inherit systems;
 
-      imports = [ inputs.treefmt-nix.flakeModule ];
-
-      flake = {
-        lib =
-          let
-            forAllSystems = inputs.nixpkgs.lib.genAttrs systems;
-          in
-          forAllSystems (
-            system:
-            let
-              pkgs = import inputs.nixpkgs {
-                inherit system;
-                config.allowUnfree = true;
-                overlays = [ (import inputs.rust-overlay) ];
-              };
-            in
-            {
-              makeNeovimWrapper =
-                {
-                  tools ? [ ],
-                }:
-                let
-                  plugins = import ./nix/plugins.nix { inherit pkgs; };
-                in
-                pkgs.callPackage ./nix/lib/make-neovim-wrapper.nix {
-                  inherit plugins tools;
-                  inherit (inputs) vscode-lean4;
-                };
-            }
-          );
-      };
+      imports = [
+        inputs.treefmt-nix.flakeModule
+        inputs.git-hooks-nix.flakeModule
+      ];
 
       perSystem =
         {
+          config,
           pkgs,
           system,
           ...
         }:
         let
+          ciPackages = with pkgs; [ ];
+
+          devPackages = ciPackages ++ config.pre-commit.settings.enabledPackages;
+
           mcpConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
-            programs = {
-              nixos.enable = true;
-            };
+            programs.nixos.enable = true;
           };
         in
         {
@@ -99,69 +79,39 @@
                 inherit (inputs) vscode-lean4;
               };
 
+            ci = pkgs.buildEnv {
+              name = "ci";
+              paths = ciPackages;
+            };
+
             mcp-config = mcpConfig;
           };
 
+          pre-commit.settings.hooks = {
+            treefmt.enable = true;
+            statix.enable = true;
+            deadnix.enable = true;
+            actionlint.enable = true;
+            selene.enable = true;
+          };
+
           devShells.default = pkgs.mkShell {
+            buildInputs = devPackages;
             shellHook = ''
+              ${config.pre-commit.shellHook}
               cat ${mcpConfig} > .mcp.json
               echo "Generated .mcp.json"
             '';
           };
 
           treefmt = {
-            projectRootFile = "flake.nix";
             programs = {
-              nixfmt.enable = true;
+              nixfmt = {
+                enable = true;
+                includes = [ "*.nix" ];
+              };
               stylua.enable = true;
             };
-          };
-
-          checks = {
-            statix =
-              pkgs.runCommandLocal "statix"
-                {
-                  src = ./.;
-                  nativeBuildInputs = [ pkgs.statix ];
-                }
-                ''
-                  statix check $src
-                  mkdir "$out"
-                '';
-
-            deadnix =
-              pkgs.runCommandLocal "deadnix"
-                {
-                  src = ./.;
-                  nativeBuildInputs = [ pkgs.deadnix ];
-                }
-                ''
-                  deadnix --fail $src
-                  mkdir "$out"
-                '';
-
-            actionlint =
-              pkgs.runCommandLocal "actionlint"
-                {
-                  src = ./.;
-                  nativeBuildInputs = [ pkgs.actionlint ];
-                }
-                ''
-                  actionlint $src/.github/workflows/*.yml
-                  mkdir "$out"
-                '';
-
-            selene =
-              pkgs.runCommandLocal "selene"
-                {
-                  src = ./.;
-                  nativeBuildInputs = [ pkgs.selene ];
-                }
-                ''
-                  cd $src
-                  selene nvim
-                  mkdir "$out"
-                '';
           };
         };
     };
