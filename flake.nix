@@ -110,7 +110,10 @@
                 enable = true;
                 includes = [ "*.nix" ];
               };
-              stylua.enable = true;
+              stylua = {
+                enable = true;
+                includes = [ "*.lua" ];
+              };
             };
           };
         };
