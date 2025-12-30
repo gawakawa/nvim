@@ -124,6 +124,17 @@ let
       hash = "sha256-CXuwbg39sboKxuJTNpq3KVqjTTOQp1Af4XWZLjorHdM=";
     };
   };
+
+  claude-code-nvim = pkgs.vimUtils.buildVimPlugin {
+    pname = "claude-code.nvim";
+    version = "unstable-2025-01-01";
+    src = pkgs.fetchFromGitHub {
+      owner = "greggh";
+      repo = "claude-code.nvim";
+      rev = "c9a31e51069977edaad9560473b5d031fcc5d38b";
+      hash = "sha256-ZEIPutxhgyaAhq+fJw1lTO781IdjTXbjKy5yKgqSLjM=";
+    };
+  };
 in
 
 with pkgs.vimPlugins;
@@ -180,6 +191,7 @@ with pkgs.vimPlugins;
   tcomment_vim
   idris2-nvim
   rustowl-nvim
+  claude-code-nvim
 
   (nvim-treesitter.withPlugins (
     plugins: with plugins; [
