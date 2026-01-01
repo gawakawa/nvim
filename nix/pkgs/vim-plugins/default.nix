@@ -162,7 +162,6 @@ with pkgs.vimPlugins;
   mini-nvim
   fyler-nvim
 
-  lazygit-nvim
   gitsigns-nvim
   nvim-autopairs
   auto-save-nvim
