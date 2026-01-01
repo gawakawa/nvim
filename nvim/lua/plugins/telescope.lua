@@ -11,4 +11,19 @@ return {
 		{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
 		{ "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Find Word under Cursor" },
 	},
+	config = function()
+		require("telescope").setup({
+			defaults = {
+				file_ignore_patterns = { "%.git/" },
+			},
+			pickers = {
+				find_files = {
+					hidden = true,
+				},
+				live_grep = {
+					additional_args = { "--hidden" },
+				},
+			},
+		})
+	end,
 }
