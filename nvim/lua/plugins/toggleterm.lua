@@ -6,7 +6,7 @@ return {
 		require("toggleterm").setup({
 			auto_scroll = false,
 			direction = "float",
-			open_mapping = [[<c-\>]],
+			open_mapping = [[<c-/>]],
 			size = 20,
 			start_in_insert = true,
 			highlights = {
