@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: "0 15 * * 5" # Every Friday at 15:00 UTC
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update:
     uses: gawakawa/.github/.github/workflows/update-flake-lock.yml@main
