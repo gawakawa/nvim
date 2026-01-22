@@ -32,6 +32,7 @@ return {
 				go = { "goimports", "gofmt" },
 				haskell = { "fourmolu" },
 				cabal = { "cabal_fmt" },
+				terraform = { "terraform_fmt" },
 			},
 			default_format_opts = {
 				lsp_format = "fallback",

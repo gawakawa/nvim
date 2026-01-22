@@ -34,6 +34,7 @@ let
     ruff
     (rust-bin.stable.latest.minimal.override { extensions = [ "rustfmt" ]; })
     shfmt
+    terraform
   ];
 
   linters = with pkgs; [
