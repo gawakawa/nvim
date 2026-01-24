@@ -72,7 +72,21 @@
               let
                 plugins = import ./nix/plugins.nix { inherit pkgs; };
                 ps-pkgs = inputs.purescript-overlay.packages.${system};
-                tools = import ./nix/tools.nix { inherit pkgs ps-pkgs; };
+                treefmtPkgs = {
+                  inherit (config.treefmt.programs)
+                    oxfmt
+                    fourmolu
+                    gofmt
+                    goimports
+                    cabal-fmt
+                    nixfmt
+                    ruff-format
+                    rustfmt
+                    shfmt
+                    terraform
+                    ;
+                };
+                tools = import ./nix/tools.nix { inherit pkgs ps-pkgs treefmtPkgs; };
               in
               pkgs.callPackage ./nix/lib/make-neovim-wrapper.nix {
                 inherit plugins tools;

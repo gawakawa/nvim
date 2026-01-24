@@ -1,4 +1,8 @@
-{ pkgs, ps-pkgs }:
+{
+  pkgs,
+  ps-pkgs,
+  treefmtPkgs,
+}:
 
 let
   telescope = with pkgs; [
@@ -22,20 +26,20 @@ let
     terraform-ls
   ];
 
-  formatters = with pkgs; [
-    oxfmt
-    fourmolu
-    go
-    golines
-    gotools
-    haskellPackages.cabal-fmt
-    nixfmt
-    ps-pkgs.purs-tidy
-    ruff
-    (rust-bin.stable.latest.minimal.override { extensions = [ "rustfmt" ]; })
-    shfmt
-    terraform
-  ];
+  formatters =
+    (with treefmtPkgs; [
+      oxfmt.package
+      fourmolu.package
+      gofmt.package
+      goimports.package
+      cabal-fmt.package
+      nixfmt.package
+      ruff-format.package
+      rustfmt.package
+      shfmt.package
+      terraform.package
+    ])
+    ++ [ ps-pkgs.purs-tidy ];
 
   linters = with pkgs; [
     actionlint
