@@ -23,7 +23,7 @@ let
   ];
 
   formatters = with pkgs; [
-    biome
+    oxfmt
     fourmolu
     go
     golines
