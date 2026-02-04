@@ -1,5 +1,8 @@
 # Neovim Configuration
 
+> [!NOTE]
+> This repository has been archived. The configuration has been merged into [gawakawa/nix-config](https://github.com/gawakawa/nix-config).
+
 Nix flake-based Neovim configuration.
 
 ## Requirements
